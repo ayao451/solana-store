@@ -11,12 +11,12 @@
   },
   {
     "id": 2,
-    "name": "Ghosts2",
+    "name": "newProdcut",
     "price": "0.01",
-    "description": "Catch Some Ghosts",
-    "image_url": "https://i.imgur.com/rVD8bjt.png",
-    "filename": "ghosts.zip",
+    "image_url": "https://img.pokemondb.net/sprites/scarlet-violet/normal/gengar.png",
+    "description": "new gengar",
+    "filename": "files.zip",
     "hash": "QmZ1JBpC2nwGd4jmNBXL33sFVCLQfKEDTSKgQAGVvQaRbQ",
-    "quantity": "0"
+    "quantity": "1"
   }
 ]

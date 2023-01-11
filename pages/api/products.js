@@ -28,13 +28,15 @@ async function post(req, res) {
   }
 }
 
-async function patch(req, res){
-  try{
+async function put(req, res){
+  console.log("PUT IS HERE");
+  try {
     const { itemID } = req.body;
-    var index = products.findIndex(function(item, i){
-      return item.itemID === itemID
+    var index = products.findIndex(function(item, _){
+      return item.id === itemID
     });
-    products[index]["quantity"] = (products[index]["quantity"] - 1).toString();
+    console.log(`Products[index], ${index}, ${products[index]}, ${itemID}`);
+    products[index].quantity = (products[index].quantity - 1).toString();
     fs.writeFileSync("./pages/api/products.json", JSON.stringify(products, null, 2));
     res.status(200).send({ status: "ok" });
   } catch (err) {
@@ -43,9 +45,10 @@ async function patch(req, res){
 }
 
 export default async function handler(req, res) {
+  console.log("req method", req.method);
   switch (req.method) {
-    case "PATCH":
-      patch(req, res);
+    case "PUT":
+      put(req, res);
       break;
     case "POST":
       await post(req, res);
