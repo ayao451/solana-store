@@ -10,9 +10,6 @@ export default function Product({ product }) {
   const [purchaseStatus, setPurchaseStatus] = useState(false);
 
   useEffect(() => {
-    // Check if this address already has already purchased this item
-    // If so, fetch the item and set paid to true
-    // Async function to avoid blocking the UI
     async function checkPurchased() {
       const purchased = await hasPurchased(publicKey, id);
       if (purchased) {
