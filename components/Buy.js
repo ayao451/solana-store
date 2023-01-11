@@ -4,7 +4,7 @@ import { findReference, FindReferenceError } from "@solana/pay";
 import { useConnection, useWallet } from "@solana/wallet-adapter-react";
 import { InfinitySpin } from "react-loader-spinner";
 import IPFSDownload from "./IpfsDownload";
-import { addOrder, hasPurchased, fetchItem } from "../lib/api";
+import { addOrder, hasPurchased, decrementProductQuantity, fetchItem } from "../lib/api";
 
 const STATUS = {
   Initial: "Initial",
@@ -83,6 +83,7 @@ export default function Buy({ itemID }) {
             clearInterval(interval);
             setStatus(STATUS.Paid);
             addOrder(order);
+            decrementProductQuantity(itemID);
             setLoading(false);
             alert("Thank you for your purchase!");
           }
