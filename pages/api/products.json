@@ -18,5 +18,13 @@
     "filename": "files.zip",
     "hash": "QmZ1JBpC2nwGd4jmNBXL33sFVCLQfKEDTSKgQAGVvQaRbQ",
     "quantity": "1"
+  },
+  {
+    "id": 3,
+    "name": "asdf",
+    "price": "1",
+    "image_url": "a",
+    "description": "a",
+    "quantity": "5"
   }
 ]

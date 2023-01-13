@@ -24,6 +24,7 @@ const CreateProduct = () => {
     name: "",
     price: "",
     image_url: "",
+    quantity: "",
     description: "",
   });
   const [file, setFile] = useState({});
