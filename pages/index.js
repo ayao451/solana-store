@@ -1,5 +1,6 @@
 import React, { useState, useEffect} from "react";
 import CreateProduct from "../components/CreateProduct";
+import ViewNFT from "../components/ViewNFT";
 import Product from "../components/Product";
 import HeadComponent from '../components/Head';
 
@@ -11,26 +12,6 @@ const WalletMultiButton = dynamic(() => import("@solana/wallet-adapter-react-ui"
 import { useWallet } from "@solana/wallet-adapter-react";
 
 import { Connection, PublicKey, clusterApiUrl} from '@solana/web3.js';
-// import {
-//   Program, AnchorProvider, web3
-// } from '@project-serum/anchor';
-
-// // Constants
-
-// // SystemProgram is a reference to the Solana runtime!
-// const { SystemProgram, Keypair } = web3;
-
-// let baseAccount = Keypair.generate();
-
-// const programID = new PublicKey("4XKzta23hVDVuKdbLpv61P6PuSEM2oUNAGeTsJYcbd4m");
-
-// // Set our network to devnet.
-// const network = clusterApiUrl('devnet');
-
-// // Controls how we want to acknowledge when a transaction is "done".
-// const opts = {
-//   preflightCommitment: "processed"
-// }
 
 const GITHUB_HANDLE = 'ayao451';
 const GITHUB_LINK = `https://github.com/ayao451/solana-store`;
@@ -40,100 +21,8 @@ const App = () => {
   const isOwner = ( publicKey ? publicKey.toString() === process.env.NEXT_PUBLIC_OWNER_PUBLIC_KEY : false );
   const [creating, setCreating] = useState(false);
   const [minting, setMinting] = useState(false);
+  const [viewing, setViewing] = useState(false);
   const [products, setProducts] = useState([]);
-  // const [orderList, setOrderList] = useState([]);
-
-  
-  // const getProvider = () => {
-  //   const connection = new Connection(network, opts.preflightCommitment);
-  //   const provider = new AnchorProvider(
-  //     connection, window.solana, opts.preflightCommitment,
-  //   );
-  //   return provider;
-  // }
-
-  // const getProgram = async () => {
-  //   // Get metadata about your solana program
-  //   const idl = await Program.fetchIdl(programID, getProvider());
-  //   // Create a program that you can call
-  //   return new Program(idl, programID, getProvider());
-  // };
-  
-  // const getOrderList = async() => {
-  //   try {
-  //     const program = await getProgram(); 
-  //     const account = await program.account.baseAccount.fetch(baseAccount.publicKey);
-      
-  //     console.log("Got the account", account)
-  //     setOrderList(account.orderList)
-  
-  //   } catch (error) {
-  //     console.log("Error in getOrderList: ", error)
-  //     setOrderList(null);
-  //   }
-  // }
-
-
-  // const sendOrder = async () => {
-  //     if (inputValue.length === 0) {
-  //         console.log("No gif link given!");
-  //         return;
-  //     }
-  //     setInputValue([]);
-  //     console.log("Gif link:", inputValue);
-  //     try {
-  //         const provider = getProvider();
-  //         const program = await getProgram();
-
-  //         await program.rpc.addOrder(inputValue, {
-  //             accounts: {
-  //                 baseAccount: baseAccount.publicKey,
-  //                 user: provider.wallet.publicKey,
-  //             },
-  //         });
-  //         console.log("GIF successfully sent to program", inputValue);
-
-  //         await getOrderList();
-  //     } catch (error) {
-  //         console.log("Error sending GIF:", error);
-  //     }
-  //   };
-
-  // const onInputChange = (event) => {
-  //     const { value } = event.target;
-  //     setInputValue(value);
-  // };
-
-
-  
-  // useEffect(() => {
-  //   if (publicKey) {
-  //     console.log('Fetching Order list...');
-  //     getOrderList()
-  //   }
-  // }, [publicKey]);
-
-  // const createOrderAccount = async () => {
-  //   try {
-  //     const provider = getProvider();
-  //     const program = await getProgram();
-      
-  //     console.log("ping")
-  //     await program.rpc.initialize({
-  //       accounts: {
-  //         baseAccount: baseAccount.publicKey,
-  //         user: provider.wallet.publicKey,
-  //         systemProgram: SystemProgram.programId,
-  //       },
-  //       signers: [baseAccount]
-  //     });
-  //     console.log("Created a new BaseAccount w/ address:", baseAccount.publicKey.toString())
-  //     await getOrderList();
-  
-  //   } catch(error) {
-  //     console.log("Error creating BaseAccount account:", error)
-  //   }
-  // }
 
   const renderNotConnectedContainer = () => (
     <div>
@@ -157,23 +46,13 @@ const App = () => {
   }, [publicKey]);
 
   const renderItemBuyContainer = () => {
-    // if (orderList === null) {
-    //   return (
-    //     <div className="connected-container">
-    //       <button className="cta-button submit-gif-button" onClick={createOrderAccount}>
-    //         Do One-Time Initialization For Order Program Account
-    //       </button>
-    //     </div>
-    //   );
-    // } else {
-      return (
-        <div className="products-container">
-          {products.map((product) => (
-            <Product key={product.id} product={product} />
-          ))}
-        </div>
-      );
-    //}
+    return (
+      <div className="products-container">
+        {products.map((product) => (
+          <Product key={product.id} product={product} />
+        ))}
+      </div>
+    );
   }
 
   return (
@@ -194,12 +73,17 @@ const App = () => {
                   {minting ? "Close" : "Mint New Pokemons"}
               </button>
           )}
+          {(
+              <button className="view-nft-button" onClick={() => setViewing(!viewing)}>
+                  {viewing ? "Close" : "View Your Pokemon"}
+              </button>
+          )}
         </header>
 
         <main>
+          {viewing && <ViewNFT />}
           {creating && <CreateProduct />}
-          {minting && <CandyMachine walletAddress={publicKey} />}
-          {publicKey ? renderItemBuyContainer() : renderNotConnectedContainer()}
+          {publicKey ? (minting ? <CandyMachine walletAddress={publicKey} /> : renderItemBuyContainer()) : renderNotConnectedContainer()}
         </main>
 
         
