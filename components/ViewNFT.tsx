@@ -1,21 +1,17 @@
-import Link from "next/link";
-import { FC, useState } from "react";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
 import { useWalletNfts, NftTokenAccount } from "@nfteyez/sol-rayz-react";
 import { useConnection } from "@solana/wallet-adapter-react";
 
 import { Loader } from "./Loader.tsx";
-import { SelectAndConnectWalletButton } from "./SelectAndConnectWalletButton.tsx";
-
 import { NftCard } from "./NftCard";
 import styles from "../styles/ViewNFT.module.css";
-const walletPublicKey = "D6BkuszbQJaDgAgY5bfVoMqR9tScAFtCh4fz9T9Mnccy";
 
 const ViewNFT = () => {
   const { connection } = useConnection();
+  const { publicKey } = useWallet();
   const { nfts, isLoading, error } = useWalletNfts({
-    publicAddress: walletPublicKey,
+    publicAddress: publicKey,
     connection,
   });
 
